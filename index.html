@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🌸 AI Flower Predictor</title>
-  <meta name="description" content="An AI-powered flower species predictor using a Decision Tree model. Predict between Iris Setosa, Versicolor, Virginica, Rose, Sunflower, and Tulip." />
+  <meta name="description"
+    content="An AI-powered flower species predictor using a Decision Tree model. Predict between Iris Setosa, Versicolor, Virginica, Rose, Sunflower, and Tulip." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --bg-from: #0f0c29;
       --bg-mid: #302b63;
       --bg-to: #24243e;
-      --glass: rgba(255,255,255,0.07);
-      --glass-border: rgba(255,255,255,0.15);
+      --glass: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.15);
       --text: #f0eeff;
-      --text-muted: rgba(240,238,255,0.6);
+      --text-muted: rgba(240, 238, 255, 0.6);
       --accent: #c084fc;
       --accent2: #f472b6;
       --radius: 20px;
-      --shadow: 0 8px 40px rgba(0,0,0,0.4);
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
     }
 
     body {
@@ -47,12 +56,44 @@
       animation: float 8s ease-in-out infinite;
       z-index: 0;
     }
-    .blob1 { width: 400px; height: 400px; background: #c084fc; top: -100px; left: -100px; animation-delay: 0s; }
-    .blob2 { width: 300px; height: 300px; background: #f472b6; bottom: 50px; right: -80px; animation-delay: -3s; }
-    .blob3 { width: 250px; height: 250px; background: #818cf8; top: 50%; left: 50%; animation-delay: -5s; }
+
+    .blob1 {
+      width: 400px;
+      height: 400px;
+      background: #c084fc;
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .blob2 {
+      width: 300px;
+      height: 300px;
+      background: #f472b6;
+      bottom: 50px;
+      right: -80px;
+      animation-delay: -3s;
+    }
+
+    .blob3 {
+      width: 250px;
+      height: 250px;
+      background: #818cf8;
+      top: 50%;
+      left: 50%;
+      animation-delay: -5s;
+    }
+
     @keyframes float {
-      0%, 100% { transform: translateY(0px) scale(1); }
-      50% { transform: translateY(-30px) scale(1.05); }
+
+      0%,
+      100% {
+        transform: translateY(0px) scale(1);
+      }
+
+      50% {
+        transform: translateY(-30px) scale(1.05);
+      }
     }
 
     /* Main container */
@@ -68,15 +109,25 @@
       text-align: center;
       margin-bottom: 36px;
     }
+
     .header .emoji-row {
       font-size: 2.6rem;
       margin-bottom: 10px;
       animation: bounce 2s ease infinite;
     }
+
     @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
     }
+
     .header h1 {
       font-size: 2.4rem;
       font-weight: 800;
@@ -86,6 +137,7 @@
       background-clip: text;
       line-height: 1.2;
     }
+
     .header p {
       margin-top: 10px;
       color: var(--text-muted);
@@ -104,6 +156,7 @@
       box-shadow: var(--shadow);
       margin-bottom: 24px;
     }
+
     .card h2 {
       font-size: 1.1rem;
       font-weight: 600;
@@ -121,8 +174,11 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px 28px;
     }
+
     @media (max-width: 520px) {
-      .slider-group { grid-template-columns: 1fr; }
+      .slider-group {
+        grid-template-columns: 1fr;
+      }
     }
 
     .slider-item label {
@@ -134,14 +190,15 @@
       color: var(--text-muted);
       margin-bottom: 8px;
     }
+
     .slider-item label span.val {
       font-size: 1rem;
       font-weight: 700;
       color: var(--text);
-      background: rgba(192,132,252,0.2);
+      background: rgba(192, 132, 252, 0.2);
       padding: 2px 10px;
       border-radius: 20px;
-      border: 1px solid rgba(192,132,252,0.3);
+      border: 1px solid rgba(192, 132, 252, 0.3);
     }
 
     input[type=range] {
@@ -149,11 +206,12 @@
       width: 100%;
       height: 6px;
       border-radius: 10px;
-      background: rgba(255,255,255,0.15);
+      background: rgba(255, 255, 255, 0.15);
       outline: none;
       cursor: pointer;
       transition: background 0.3s;
     }
+
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       width: 20px;
@@ -161,20 +219,23 @@
       border-radius: 50%;
       background: linear-gradient(135deg, #c084fc, #f472b6);
       cursor: pointer;
-      box-shadow: 0 0 10px rgba(192,132,252,0.6);
+      box-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
       transition: transform 0.15s, box-shadow 0.15s;
     }
+
     input[type=range]::-webkit-slider-thumb:hover {
       transform: scale(1.2);
-      box-shadow: 0 0 16px rgba(192,132,252,0.9);
+      box-shadow: 0 0 16px rgba(192, 132, 252, 0.9);
     }
+
     input[type=range]::-moz-range-thumb {
-      width: 20px; height: 20px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: linear-gradient(135deg, #c084fc, #f472b6);
       cursor: pointer;
       border: none;
-      box-shadow: 0 0 10px rgba(192,132,252,0.6);
+      box-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
     }
 
     /* Result card */
@@ -194,12 +255,20 @@
       font-size: 4rem;
       margin-bottom: 10px;
       display: block;
-      animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
       transform-origin: center;
     }
+
     @keyframes popIn {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
 
     .result-card .species-name {
@@ -211,27 +280,31 @@
       background-clip: text;
       margin-bottom: 6px;
     }
+
     .result-card .confidence-bar-wrap {
       margin: 16px auto 0;
       max-width: 320px;
     }
+
     .result-card .confidence-label {
       font-size: 0.8rem;
       color: var(--text-muted);
       margin-bottom: 6px;
       text-align: left;
     }
+
     .confidence-bar-bg {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       height: 8px;
       overflow: hidden;
     }
+
     .confidence-bar-fill {
       height: 100%;
       border-radius: 20px;
       background: linear-gradient(90deg, #c084fc, #f472b6);
-      transition: width 0.6s cubic-bezier(0.34,1.1,0.64,1);
+      transition: width 0.6s cubic-bezier(0.34, 1.1, 0.64, 1);
     }
 
     .result-card .flower-img-wrap {
@@ -240,20 +313,22 @@
       height: 200px;
       border-radius: 50%;
       overflow: hidden;
-      border: 3px solid rgba(192,132,252,0.5);
-      box-shadow: 0 0 30px rgba(192,132,252,0.3);
-      background: rgba(255,255,255,0.05);
+      border: 3px solid rgba(192, 132, 252, 0.5);
+      box-shadow: 0 0 30px rgba(192, 132, 252, 0.3);
+      background: rgba(255, 255, 255, 0.05);
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+
     .result-card .flower-img-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
+
     .result-card .no-img {
       color: var(--text-muted);
       font-size: 0.85rem;
@@ -264,8 +339,8 @@
       align-items: center;
       gap: 6px;
       margin-top: 18px;
-      background: rgba(192,132,252,0.15);
-      border: 1px solid rgba(192,132,252,0.3);
+      background: rgba(192, 132, 252, 0.15);
+      border: 1px solid rgba(192, 132, 252, 0.3);
       border-radius: 30px;
       padding: 5px 14px;
       font-size: 0.78rem;
@@ -291,9 +366,10 @@
       gap: 8px;
       margin-top: 10px;
     }
+
     .chip {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 30px;
       padding: 5px 14px;
       font-size: 0.8rem;
@@ -302,23 +378,27 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .chip:hover, .chip.active {
-      background: rgba(192,132,252,0.2);
-      border-color: rgba(192,132,252,0.5);
+
+    .chip:hover,
+    .chip.active {
+      background: rgba(192, 132, 252, 0.2);
+      border-color: rgba(192, 132, 252, 0.5);
       color: var(--text);
       transform: translateY(-2px);
     }
 
     footer {
-      position: relative; z-index: 1;
+      position: relative;
+      z-index: 1;
       margin-top: 24px;
       font-size: 0.78rem;
-      color: rgba(255,255,255,0.3);
+      color: rgba(255, 255, 255, 0.3);
       text-align: center;
       letter-spacing: 0.5px;
     }
   </style>
 </head>
+
 <body>
 
   <!-- Background blobs -->
@@ -379,12 +459,12 @@
     <div class="card" style="padding: 20px 32px;">
       <h2>⚡ Quick Presets</h2>
       <div class="species-chips">
-        <div class="chip" id="chip-setosa"    onclick="setPreset(5.0, 3.5, 1.5, 0.3, 'setosa')">🌷 Setosa</div>
+        <div class="chip" id="chip-setosa" onclick="setPreset(5.0, 3.5, 1.5, 0.3, 'setosa')">🌷 Setosa</div>
         <div class="chip" id="chip-versicolor" onclick="setPreset(6.0, 2.7, 4.5, 1.4, 'versicolor')">🌿 Versicolor</div>
-        <div class="chip" id="chip-virginica"  onclick="setPreset(7.0, 3.0, 6.0, 2.1, 'virginica')">🌺 Virginica</div>
-        <div class="chip" id="chip-rose"       onclick="setPreset(9.0, 4.0, 8.0, 3.0, 'rose')">🌹 Rose</div>
-        <div class="chip" id="chip-sunflower"  onclick="setPreset(15.0, 8.0, 10.0, 5.0, 'sunflower')">🌻 Sunflower</div>
-        <div class="chip" id="chip-tulip"      onclick="setPreset(6.5, 2.5, 5.5, 2.5, 'tulip')">🌷 Tulip</div>
+        <div class="chip" id="chip-virginica" onclick="setPreset(7.0, 3.0, 6.0, 2.1, 'virginica')">🌺 Virginica</div>
+        <div class="chip" id="chip-rose" onclick="setPreset(9.0, 4.0, 8.0, 3.0, 'rose')">🌹 Rose</div>
+        <div class="chip" id="chip-sunflower" onclick="setPreset(15.0, 8.0, 10.0, 5.0, 'sunflower')">🌻 Sunflower</div>
+        <div class="chip" id="chip-tulip" onclick="setPreset(6.5, 2.5, 5.5, 2.5, 'tulip')">🌷 Tulip</div>
       </div>
     </div>
 
@@ -401,12 +481,14 @@
       </div>
 
       <div id="flower-img-container" class="flower-img-wrap">
-        <img id="flower-img" src="versicolor.png" alt="Versicolor" onerror="this.style.display='none'; document.getElementById('no-img-text').style.display='block'">
+        <img id="flower-img" src="versicolor.png" alt="Versicolor"
+          onerror="this.style.display='none'; document.getElementById('no-img-text').style.display='block'">
         <span id="no-img-text" class="no-img" style="display:none">🌸</span>
       </div>
 
       <div class="ai-tag">🤖 Decision Tree AI · 6 Species</div>
-      <p class="desc" id="result-desc">A beautiful iris species with medium-sized petals and a graceful form, commonly found in meadows.</p>
+      <p class="desc" id="result-desc">A beautiful iris species with medium-sized petals and a graceful form, commonly
+        found in meadows.</p>
     </div>
 
   </div>
@@ -424,21 +506,21 @@
     const CLASSES = ['setosa', 'versicolor', 'virginica', 'rose', 'sunflower', 'tulip'];
 
     const EMOJIS = {
-      setosa:     '🌷',
+      setosa: '🌷',
       versicolor: '🌿',
-      virginica:  '🌺',
-      rose:       '🌹',
-      sunflower:  '🌻',
-      tulip:      '🌸',
+      virginica: '🌺',
+      rose: '🌹',
+      sunflower: '🌻',
+      tulip: '🌸',
     };
 
     const DESCS = {
-      setosa:     'Iris Setosa — a delicate species with small petals and a distinctive blue-purple hue, native to Arctic and subarctic regions.',
+      setosa: 'Iris Setosa — a delicate species with small petals and a distinctive blue-purple hue, native to Arctic and subarctic regions.',
       versicolor: 'Iris Versicolor — the blue flag iris, a graceful species with medium-sized petals, found in meadows and wetlands.',
-      virginica:  'Iris Virginica — the southern blue flag, a large and elegant iris with wide petals, native to North America.',
-      rose:       'Rosa — the timeless symbol of love and beauty. Known for its large, aromatic blooms in shades of red, pink, and white.',
-      sunflower:  'Helianthus annuus — the cheerful sunflower! Its massive golden head follows the sun across the sky each day.',
-      tulip:      'Tulipa — a spring-blooming bulb with cup-shaped, vibrant flowers in almost every color of the rainbow.',
+      virginica: 'Iris Virginica — the southern blue flag, a large and elegant iris with wide petals, native to North America.',
+      rose: 'Rosa — the timeless symbol of love and beauty. Known for its large, aromatic blooms in shades of red, pink, and white.',
+      sunflower: 'Helianthus annuus — the cheerful sunflower! Its massive golden head follows the sun across the sky each day.',
+      tulip: 'Tulipa — a spring-blooming bulb with cup-shaped, vibrant flowers in almost every color of the rainbow.',
     };
 
     const CONFIDENCE = {
@@ -503,9 +585,9 @@
 
       // Update UI with animation
       const emojiEl = document.getElementById('result-emoji');
-      const nameEl  = document.getElementById('result-name');
-      const descEl  = document.getElementById('result-desc');
-      const imgEl   = document.getElementById('flower-img');
+      const nameEl = document.getElementById('result-name');
+      const descEl = document.getElementById('result-desc');
+      const imgEl = document.getElementById('flower-img');
       const noImgEl = document.getElementById('no-img-text');
       const confBar = document.getElementById('conf-bar');
 
@@ -519,8 +601,8 @@
       }, 10);
 
       emojiEl.textContent = EMOJIS[species];
-      nameEl.textContent  = species.charAt(0).toUpperCase() + species.slice(1);
-      descEl.textContent  = DESCS[species];
+      nameEl.textContent = species.charAt(0).toUpperCase() + species.slice(1);
+      descEl.textContent = DESCS[species];
       confBar.style.width = CONFIDENCE[species] + '%';
 
       // Image
@@ -541,9 +623,9 @@
 
     function setPreset(sl, sw, pl, pw, name) {
       document.getElementById('sepal-length').value = sl;
-      document.getElementById('sepal-width').value  = sw;
+      document.getElementById('sepal-width').value = sw;
       document.getElementById('petal-length').value = pl;
-      document.getElementById('petal-width').value  = pw;
+      document.getElementById('petal-width').value = pw;
       document.getElementById('sl-val').textContent = sl.toFixed(1);
       document.getElementById('sw-val').textContent = sw.toFixed(1);
       document.getElementById('pl-val').textContent = pl.toFixed(1);
@@ -556,4 +638,5 @@
     predict();
   </script>
 </body>
+
 </html>
