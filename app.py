@@ -1,5 +1,6 @@
 import streamlit as st
 import numpy as np
+import os
 from sklearn.datasets import load_iris
 from sklearn.tree import DecisionTreeClassifier
 
@@ -65,11 +66,20 @@ if predicted_species == "Setosa":
     st.success(f"The model predicts: **{predicted_species}** 🌷")
 elif predicted_species == "Versicolor":
     st.info(f"The model predicts: **{predicted_species}** 🌻")
-else:
+elif predicted_species == "Virginica":
     st.warning(f"The model predicts: **{predicted_species}** 🌺")
+elif predicted_species == "Rose":
+    st.error(f"The model predicts: **{predicted_species}** 🌹")
+elif predicted_species == "Sunflower":
+    st.success(f"The model predicts: **{predicted_species}** 🌻")
+elif predicted_species == "Tulip":
+    st.info(f"The model predicts: **{predicted_species}** 🌷")
+else:
+    st.warning(f"The model predicts: **{predicted_species}** 🌸")
 
-# Display the image
-import os
-img_path = f"{predicted_species.lower()}.png"
+# --- Display Image ---
+img_path = os.path.join(os.path.dirname(__file__), f"{predicted_species.lower()}.png")
 if os.path.exists(img_path):
     st.image(img_path, width=300)
+else:
+    st.caption(f"(No image found for {predicted_species})")
